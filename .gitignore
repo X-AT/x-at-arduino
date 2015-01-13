@@ -1,0 +1,18 @@
+# Eagle backup
+*.s#?
+*.b#?
+*.l#?
+
+# C files
+*.bin
+*.elf
+*.o
+*.d
+core
+
+# editor
+*.swp
+*~
+
+# Python files
+*.pyc
