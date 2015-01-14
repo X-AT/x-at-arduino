@@ -6,6 +6,7 @@
 
 
 #include "main.h"
+#include "Descriptors.h"
 
 static XAT_ReportBuffer_t prev_hid_report_buffer;
 USB_ClassInfo_HID_Device_t xat_hid_interface = {
@@ -52,6 +53,42 @@ static uint16_t report_fill_status(XAT_ReportBuffer_t *data)
 	data->status.azimuth_position = -100;
 	data->status.elevation_position = 100;
 	return sizeof(data->status);
+}
+
+static uint16_t report_fill_bat_voltage(XAT_ReportBuffer_t *data)
+{
+	return sizeof(data->bat_voltage);
+}
+
+static uint16_t report_fill_stepper_settings(XAT_ReportBuffer_t *data)
+{
+	return sizeof(data->stepper_settings);
+}
+
+static uint16_t report_fill_qtr(XAT_ReportBuffer_t *data)
+{
+	return sizeof(data->qtr);
+}
+
+static void report_apply_stepper_settings(const XAT_ReportBuffer_t *data, uint16_t size)
+{
+	if (size != sizeof(data->stepper_settings))
+		return;
+
+}
+
+static void report_apply_az_el(const XAT_ReportBuffer_t *data, uint16_t size)
+{
+	if (size != sizeof(data->az_el))
+		return;
+
+}
+
+static void report_apply_qtr(const XAT_ReportBuffer_t *data, uint16_t size)
+{
+	if (size != sizeof(data->qtr))
+		return;
+
 }
 
 int main(void)
@@ -115,12 +152,24 @@ bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDIn
                                          uint16_t* const ReportSize)
 {
 	switch (*ReportID) {
-	case REPORT_ID_Get_INFO:
+	case REPORT_ID_F_INFO:
 		*ReportSize = report_fill_info(ReportData);
 		break;
 
-	case REPORT_ID_Get_STATUS:
+	case REPORT_ID_G_STATUS:
 		*ReportSize = report_fill_status(ReportData);
+		break;
+
+	case REPORT_ID_G_BAT_VOLTAGE:
+		*ReportSize = report_fill_bat_voltage(ReportData);
+		break;
+
+	case REPORT_ID_F_STEPPER_SETTINGS:
+		*ReportSize = report_fill_stepper_settings(ReportData);
+		break;
+
+	case REPORT_ID_F_QTR:
+		*ReportSize = report_fill_qtr(ReportData);
 		break;
 
 	default:
@@ -145,5 +194,22 @@ void CALLBACK_HID_Device_ProcessHIDReport(USB_ClassInfo_HID_Device_t* const HIDI
                                           const void* ReportData,
                                           const uint16_t ReportSize)
 {
+	switch (ReportID) {
+	case REPORT_ID_F_STEPPER_SETTINGS:
+		report_apply_stepper_settings(ReportData, ReportSize);
+		break;
+
+	case REPORT_ID_S_AZ_EL:
+		report_apply_az_el(ReportData, ReportSize);
+		break;
+
+	case REPORT_ID_F_QTR:
+		report_apply_qtr(ReportData, ReportSize);
+		break;
+
+	default:
+		/* TODO signal error */
+		break;
+	}
 }
 

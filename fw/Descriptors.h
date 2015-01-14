@@ -34,17 +34,21 @@ enum StringDescriptors_t {
 
 /* HID report types */
 enum XAT_ReportID_t {
-	REPORT_ID_Get_INFO = 1,
-	REPORT_ID_Get_STATUS = 2,
+	REPORT_ID_F_INFO = 1,
+	REPORT_ID_G_STATUS = 2,
+	REPORT_ID_G_BAT_VOLTAGE = 3,
+	REPORT_ID_F_STEPPER_SETTINGS = 4,
+	REPORT_ID_S_AZ_EL = 5,
+	REPORT_ID_F_QTR = 6,
 };
 
-struct XAT_Report_INFO {
+struct XAT_Report_Info {
 	uint8_t display_rows;
 	uint8_t display_columns;
 	/* TODO */
 } ATTR_PACKED;
 
-struct XAT_Report_STATUS {
+struct XAT_Report_Status {
 	/* TODO flags bits */
 	uint8_t flags;
 #define STATUS_BUTTON1	(1<<0)
@@ -54,10 +58,35 @@ struct XAT_Report_STATUS {
 	int32_t elevation_position; /* (altitude) */
 } ATTR_PACKED;
 
+struct XAT_Report_Bat_Voltage {
+	uint16_t raw_adc;
+} ATTR_PACKED;
+
+struct XAT_Report_Stepper_Settings {
+	uint16_t azimuth_acceleration;
+	uint16_t elevation_acceleration;
+	uint16_t azimuth_velocity;
+	uint16_t elevation_velocity;
+} ATTR_PACKED;
+
+struct XAT_Report_Az_El {
+	int32_t azimuth_position;
+	int32_t elevation_position;
+} ATTR_PACKED;
+
+struct XAT_Report_QTR {
+	uint16_t azimuth_qtr_raw;
+	uint16_t elevation_qtr_raw;
+} ATTR_PACKED;
+
 typedef union {
 	uint8_t data[64];
-	struct XAT_Report_INFO info;
-	struct XAT_Report_STATUS status;
+	struct XAT_Report_Info info;
+	struct XAT_Report_Status status;
+	struct XAT_Report_Bat_Voltage bat_voltage;
+	struct XAT_Report_Stepper_Settings stepper_settings;
+	struct XAT_Report_Az_El az_el;
+	struct XAT_Report_QTR qtr;
 } XAT_ReportBuffer_t;
 
 /* Macros: */
