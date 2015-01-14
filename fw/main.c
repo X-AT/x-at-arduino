@@ -4,9 +4,8 @@
  * Based on LUFA GenericHID demo.
  */
 
-
 #include "main.h"
-#include "Descriptors.h"
+
 
 static XAT_ReportBuffer_t prev_hid_report_buffer;
 USB_ClassInfo_HID_Device_t xat_hid_interface = {
@@ -36,6 +35,7 @@ static void setup_hardware(void)
 	LEDs_Init();
 	USB_Init();
 	ADC_Task_Init();
+	WallTime_Init();
 }
 
 static uint16_t report_fill_info(XAT_ReportBuffer_t *data)
@@ -103,11 +103,17 @@ int main(void)
 	LEDs_TurnOnLEDs(LEDS_LED1 | LEDS_LED2);
 	GlobalInterruptEnable();
 
+	uint32_t last_blink_ms = millis();
 	for (;;)
 	{
 		HID_Device_USBTask(&xat_hid_interface);
 		USB_USBTask();
 		ADC_Task();
+
+		if (millis() - last_blink_ms > 500) {
+			last_blink_ms = millis();
+			LEDs_ToggleLEDs(LEDS_LED1);
+		}
 	}
 }
 

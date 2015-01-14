@@ -16,6 +16,7 @@
 #include <string.h>
 
 #include "Descriptors.h"
+#include "wall_time.h"
 
 #include <LUFA/Drivers/Board/LEDs.h>
 #include <LUFA/Drivers/USB/USB.h>

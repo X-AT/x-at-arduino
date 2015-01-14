@@ -6,6 +6,7 @@
  */
 
 #include "accelstepper.h"
+#include "wall_time.h"
 #include <math.h>
 #include <string.h>
 
@@ -85,8 +86,7 @@ void AS_ObjectInit(AccelStepper_t *self, AS_step_cb_t step_cb)
 	self->step_cb = step_cb;
 	self->max_speed = 1.0;
 	self->acceleration = 0.0;
-	//self->sqrt_twoa = 1.0;
-	self->min_pulse_width_us = 1;
+	//self->min_pulse_width_us = 1;
 	self->cmin = 1.0;
 	self->direction = DIRECTION_CCW;
 
@@ -114,7 +114,9 @@ bool AS_RunSpeed(AccelStepper_t *self)
 	if (!self->step_interval_us)
 		return false;
 
-	uint32_t time = micros(); // XXX: TODO
+	// XXX: it is single place where required arduino funcs.
+	// Look wall_time.h
+	uint32_t time = micros();
 
 	// Gymnastics to detect wrapping of either the nextStepTime and/or the current time
 	unsigned long next_step_time = self->last_step_time_us + self->step_interval_us;
