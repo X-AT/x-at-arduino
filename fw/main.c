@@ -64,6 +64,7 @@ static uint16_t report_fill_bat_voltage(XAT_ReportBuffer_t *data)
 
 static uint16_t report_fill_stepper_settings(XAT_ReportBuffer_t *data)
 {
+	Stepper_GetSettings(&data->stepper_settings);
 	return sizeof(data->stepper_settings);
 }
 
@@ -76,22 +77,24 @@ static uint16_t report_fill_qtr(XAT_ReportBuffer_t *data)
 
 static void report_apply_stepper_settings(const XAT_ReportBuffer_t *data, uint16_t size)
 {
-	if (size != sizeof(data->stepper_settings))
-		return;
+	//if (size != sizeof(data->stepper_settings))
+	//	return;
 
+	Stepper_SetSettings(&data->stepper_settings);
 }
 
 static void report_apply_az_el(const XAT_ReportBuffer_t *data, uint16_t size)
 {
-	if (size != sizeof(data->az_el))
-		return;
+	//if (size != sizeof(data->az_el))
+	//	return;
 
+	Stepper_SetAzEl(&data->az_el);
 }
 
 static void report_apply_qtr(const XAT_ReportBuffer_t *data, uint16_t size)
 {
-	if (size != sizeof(data->qtr))
-		return;
+	//if (size != sizeof(data->qtr))
+	//	return;
 
 	QTR_SetAzElLevel(data->qtr.azimuth_qtr_raw, data->qtr.elevation_qtr_raw);
 }

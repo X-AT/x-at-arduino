@@ -66,8 +66,8 @@ struct XAT_Report_Bat_Voltage {
 struct XAT_Report_Stepper_Settings {
 	uint16_t azimuth_acceleration;
 	uint16_t elevation_acceleration;
-	uint16_t azimuth_velocity;
-	uint16_t elevation_velocity;
+	uint16_t azimuth_max_speed;
+	uint16_t elevation_max_speed;
 } ATTR_PACKED;
 
 struct XAT_Report_Az_El {
