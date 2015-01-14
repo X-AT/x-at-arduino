@@ -9,6 +9,11 @@
 *.o
 *.d
 core
+*.eep
+*.hex
+*.lss
+*.map
+*.sym
 
 # editor
 *.swp
