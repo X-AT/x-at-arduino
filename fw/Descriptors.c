@@ -14,14 +14,7 @@
  *  more details on HID report descriptors.
  */
 static const USB_Descriptor_HIDReport_Datatype_t PROGMEM xat_report[] = {
-	/* Use the HID class driver's standard Vendor HID report.
-	 *  Vendor Usage Page: 0
-	 *  Vendor Collection Usage: 1
-	 *  Vendor Report IN Usage: 2
-	 *  Vendor Report OUT Usage: 3
-	 *  Vendor Report Size: GENERIC_REPORT_SIZE
-	 */
-	HID_DESCRIPTOR_VENDOR(0x00, 0x01, 0x02, 0x03, 8)
+#include "xat_desc.hid.h"
 };
 
 /** Device descriptor structure. This descriptor, located in FLASH memory, describes the overall

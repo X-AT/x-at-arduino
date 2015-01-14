@@ -32,6 +32,34 @@ enum StringDescriptors_t {
 	STRING_ID_Product      = 2, /**< Product string ID */
 };
 
+/* HID report types */
+enum XAT_ReportID_t {
+	REPORT_ID_Get_INFO = 1,
+	REPORT_ID_Get_STATUS = 2,
+};
+
+struct XAT_Report_INFO {
+	uint8_t display_rows;
+	uint8_t display_columns;
+	/* TODO */
+} ATTR_PACKED;
+
+struct XAT_Report_STATUS {
+	/* TODO flags bits */
+	uint8_t flags;
+#define STATUS_BUTTON1	(1<<0)
+#define STTAUS_BUTTON2	(1<<1)
+	uint8_t buttons;
+	int32_t azimuth_position;
+	int32_t elevation_position; /* (altitude) */
+} ATTR_PACKED;
+
+typedef union {
+	uint8_t data[64];
+	struct XAT_Report_INFO info;
+	struct XAT_Report_STATUS status;
+} XAT_ReportBuffer_t;
+
 /* Macros: */
 /** Endpoint address of the HID reporting IN endpoint. */
 #define HID_IN_EPADDR         (ENDPOINT_DIR_IN | 1)

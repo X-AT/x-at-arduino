@@ -7,7 +7,7 @@
 
 #include "main.h"
 
-static uint8_t prev_hid_report_buffer[64];
+static XAT_ReportBuffer_t prev_hid_report_buffer;
 USB_ClassInfo_HID_Device_t xat_hid_interface = {
 	.Config = {
 		.InterfaceNumber              = INTERFACE_ID_XAT_HID,
@@ -16,7 +16,7 @@ USB_ClassInfo_HID_Device_t xat_hid_interface = {
 			.Size                 = HID_EPSIZE,
 			.Banks                = 1,
 		},
-		.PrevReportINBuffer           = prev_hid_report_buffer,
+		.PrevReportINBuffer           = prev_hid_report_buffer.data,
 		.PrevReportINBufferSize       = sizeof(prev_hid_report_buffer),
 	},
 };
@@ -36,10 +36,29 @@ static void setup_hardware(void)
 	USB_Init();
 }
 
+static uint16_t report_fill_info(XAT_ReportBuffer_t *data)
+{
+	/* XXX TODO */
+	data->info.display_rows = 64;
+	data->info.display_columns = 128;
+	return sizeof(data->info);
+}
+
+static uint16_t report_fill_status(XAT_ReportBuffer_t *data)
+{
+	/* XXX TODO */
+	data->status.flags = 0x5a;
+	data->status.buttons = 0;
+	data->status.azimuth_position = -100;
+	data->status.elevation_position = 100;
+	return sizeof(data->status);
+}
+
 int main(void)
 {
 	setup_hardware();
 
+	LEDs_TurnOnLEDs(LEDS_LED1 | LEDS_LED2);
 	GlobalInterruptEnable();
 
 	for (;;)
@@ -51,10 +70,13 @@ int main(void)
 
 void EVENT_USB_Device_Connect(void)
 {
+	LEDs_TurnOffLEDs(LEDS_LED2);
 }
 
 void EVENT_USB_Device_Disconnect(void)
 {
+	// XXX: leds inverted on PRO MICRO
+	LEDs_TurnOnLEDs(LEDS_LED2);
 }
 
 void EVENT_USB_Device_ConfigurationChanged(void)
@@ -92,7 +114,20 @@ bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDIn
                                          void* ReportData,
                                          uint16_t* const ReportSize)
 {
-	*ReportSize = 0;
+	switch (*ReportID) {
+	case REPORT_ID_Get_INFO:
+		*ReportSize = report_fill_info(ReportData);
+		break;
+
+	case REPORT_ID_Get_STATUS:
+		*ReportSize = report_fill_status(ReportData);
+		break;
+
+	default:
+		/* TODO signal error */
+		*ReportSize = 0;
+	}
+
 	return false;
 }
 
