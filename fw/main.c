@@ -35,7 +35,7 @@ static void setup_hardware(void)
 	/* Hardware Initialization */
 	LEDs_Init();
 	USB_Init();
-	BAT_Init();
+	ADC_Task_Init();
 }
 
 static uint16_t report_fill_info(XAT_ReportBuffer_t *data)
@@ -50,7 +50,7 @@ static uint16_t report_fill_status(XAT_ReportBuffer_t *data)
 {
 	/* XXX TODO */
 	data->status.flags = 0x5a;
-	data->status.buttons = 0;
+	data->status.buttons = QTR_GetStatusButtons();
 	data->status.azimuth_position = -100;
 	data->status.elevation_position = 100;
 	return sizeof(data->status);
@@ -69,6 +69,8 @@ static uint16_t report_fill_stepper_settings(XAT_ReportBuffer_t *data)
 
 static uint16_t report_fill_qtr(XAT_ReportBuffer_t *data)
 {
+	data->qtr.azimuth_qtr_raw = QTR_GetAzValueRaw();
+	data->qtr.elevation_qtr_raw = QTR_GetElValueRaw();
 	return sizeof(data->qtr);
 }
 
@@ -91,6 +93,7 @@ static void report_apply_qtr(const XAT_ReportBuffer_t *data, uint16_t size)
 	if (size != sizeof(data->qtr))
 		return;
 
+	QTR_SetAzElLevel(data->qtr.azimuth_qtr_raw, data->qtr.elevation_qtr_raw);
 }
 
 int main(void)
@@ -104,7 +107,7 @@ int main(void)
 	{
 		HID_Device_USBTask(&xat_hid_interface);
 		USB_USBTask();
-		BAT_Task();
+		ADC_Task();
 	}
 }
 

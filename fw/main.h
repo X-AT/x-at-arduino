@@ -42,9 +42,13 @@ void CALLBACK_HID_Device_ProcessHIDReport(USB_ClassInfo_HID_Device_t* const HIDI
 		const uint16_t ReportSize);
 
 
-/* bat_voltage module */
-void BAT_Init(void);
-void BAT_Task(void);
+/* adc_task module */
+void ADC_Task_Init(void);
+void ADC_Task(void);
 uint16_t BAT_GetVoltageRaw(void);
+uint16_t QTR_GetAzValueRaw(void);
+uint16_t QTR_GetElValueRaw(void);
+uint8_t QTR_GetStatusButtons(void);
+void QTR_SetAzElLevel(uint16_t az, uint16_t el);
 
 #endif /* _MAIN_H_ */

@@ -34,12 +34,12 @@ enum StringDescriptors_t {
 
 /* HID report types */
 enum XAT_ReportID_t {
-	REPORT_ID_F_INFO = 1,
-	REPORT_ID_G_STATUS = 2,
-	REPORT_ID_G_BAT_VOLTAGE = 3,
-	REPORT_ID_F_STEPPER_SETTINGS = 4,
-	REPORT_ID_S_AZ_EL = 5,
-	REPORT_ID_F_QTR = 6,
+	REPORT_ID_F_INFO             = 1,	/**< Get device info */
+	REPORT_ID_G_STATUS           = 2,	/**< Get status: endstops and positions */
+	REPORT_ID_G_BAT_VOLTAGE      = 3,	/**< Get raw analog value of Vbat (see logical/phys min/max desc) */
+	REPORT_ID_F_STEPPER_SETTINGS = 4,	/**< Get/set acceleration and velocity settings */
+	REPORT_ID_S_AZ_EL            = 5,	/**< Set target position for steppers */
+	REPORT_ID_F_QTR              = 6,	/**< Get raw analog value / Set threshold level */
 };
 
 struct XAT_Report_Info {
@@ -52,10 +52,10 @@ struct XAT_Report_Status {
 	/* TODO flags bits */
 	uint8_t flags;
 #define STATUS_BUTTON1	(1<<0)
-#define STTAUS_BUTTON2	(1<<1)
+#define STATUS_BUTTON2	(1<<1)
 	uint8_t buttons;
 	int32_t azimuth_position;
-	int32_t elevation_position; /* (altitude) */
+	int32_t elevation_position; /* aka USAGE(altitude) */
 } ATTR_PACKED;
 
 struct XAT_Report_Bat_Voltage {
