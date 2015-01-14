@@ -41,4 +41,10 @@ void CALLBACK_HID_Device_ProcessHIDReport(USB_ClassInfo_HID_Device_t* const HIDI
 		const void* ReportData,
 		const uint16_t ReportSize);
 
+
+/* bat_voltage module */
+void BAT_Init(void);
+void BAT_Task(void);
+uint16_t BAT_GetVoltageRaw(void);
+
 #endif /* _MAIN_H_ */

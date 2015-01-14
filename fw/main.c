@@ -35,6 +35,7 @@ static void setup_hardware(void)
 	/* Hardware Initialization */
 	LEDs_Init();
 	USB_Init();
+	BAT_Init();
 }
 
 static uint16_t report_fill_info(XAT_ReportBuffer_t *data)
@@ -57,6 +58,7 @@ static uint16_t report_fill_status(XAT_ReportBuffer_t *data)
 
 static uint16_t report_fill_bat_voltage(XAT_ReportBuffer_t *data)
 {
+	data->bat_voltage.raw_adc = BAT_GetVoltageRaw();
 	return sizeof(data->bat_voltage);
 }
 
@@ -102,6 +104,7 @@ int main(void)
 	{
 		HID_Device_USBTask(&xat_hid_interface);
 		USB_USBTask();
+		BAT_Task();
 	}
 }
 
