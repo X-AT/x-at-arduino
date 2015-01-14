@@ -8,6 +8,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#ifndef _ACCELSTEPPER_H_
+#define _ACCELSTEPPER_H_
 
 enum AS_Direction {
 	DIRECTION_CCW = 0,	//!< Counter-Clocwise
@@ -74,3 +76,4 @@ static inline int32_t AS_CurrentPosition(AccelStepper_t *self)
 	return self->current_pos;
 }
 
+#endif /* _ACCELSTEPPER_H_ */

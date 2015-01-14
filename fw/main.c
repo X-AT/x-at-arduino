@@ -34,8 +34,9 @@ static void setup_hardware(void)
 	/* Hardware Initialization */
 	LEDs_Init();
 	USB_Init();
-	ADC_Task_Init();
 	WallTime_Init();
+	ADC_Task_Init();
+	Stepper_Task_Init();
 }
 
 static uint16_t report_fill_info(XAT_ReportBuffer_t *data)
@@ -48,11 +49,10 @@ static uint16_t report_fill_info(XAT_ReportBuffer_t *data)
 
 static uint16_t report_fill_status(XAT_ReportBuffer_t *data)
 {
-	/* XXX TODO */
-	data->status.flags = 0x5a;
+	data->status.flags = Stepper_GetFlags();
 	data->status.buttons = QTR_GetStatusButtons();
-	data->status.azimuth_position = -100;
-	data->status.elevation_position = 100;
+	data->status.azimuth_position = Stepper_GetAzPosition();
+	data->status.elevation_position = Stepper_GetElPosition();
 	return sizeof(data->status);
 }
 
@@ -109,6 +109,7 @@ int main(void)
 		HID_Device_USBTask(&xat_hid_interface);
 		USB_USBTask();
 		ADC_Task();
+		Stepper_Task();
 
 		if (millis() - last_blink_ms > 500) {
 			last_blink_ms = millis();

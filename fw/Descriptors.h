@@ -49,9 +49,10 @@ struct XAT_Report_Info {
 } ATTR_PACKED;
 
 struct XAT_Report_Status {
-	/* TODO flags bits */
+#define FLAGS_AZ_IN_MOTION	(1<<0)
+#define FLAGS_EL_IN_MOTION	(1<<1)
 	uint8_t flags;
-#define STATUS_BUTTON1	(1<<0)
+#define STATUS_BUTTON1	(1<<0)	// azimuth endstop
 #define STATUS_BUTTON2	(1<<1)
 	uint8_t buttons;
 	int32_t azimuth_position;

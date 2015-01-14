@@ -23,6 +23,12 @@
 #include <LUFA/Platform/Platform.h>
 
 /* Macros: */
+#ifndef cbi
+#define cbi(sfr, bit) (_SFR_BYTE(sfr) &= ~_BV(bit))
+#endif
+#ifndef sbi
+#define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(bit))
+#endif
 
 /* Function Prototypes: */
 void EVENT_USB_Device_Connect(void);
@@ -51,5 +57,12 @@ uint16_t QTR_GetAzValueRaw(void);
 uint16_t QTR_GetElValueRaw(void);
 uint8_t QTR_GetStatusButtons(void);
 void QTR_SetAzElLevel(uint16_t az, uint16_t el);
+
+/* stepper_task module */
+void Stepper_Task_Init(void);
+void Stepper_Task(void);
+int32_t Stepper_GetAzPosition(void);
+int32_t Stepper_GetElPosition(void);
+uint8_t Stepper_GetFlags(void);
 
 #endif /* _MAIN_H_ */
