@@ -43,16 +43,10 @@ enum XAT_ReportID_t {
 	REPORT_ID_F_QTR              = 6,	/**< Get raw analog value / Set threshold level */
 	REPORT_ID_F_CUR_POSITION     = 7,	/**< Set current position of steppers (cuse with caution) */
 	REPORT_ID_S_STOP             = 8,	/**< Require stop of motors */
-	REPORT_ID_S_DISP_WRITE_8     = 16,	/**< Write bitmap to display (max 8-byte) */
-	REPORT_ID_S_DISP_WRITE_16    = 17,	/**< Write bitmap to display (max 16-byte) */
-	REPORT_ID_S_DISP_WRITE_32    = 18,	/**< Write bitmap to display (max 32-byte) */
-	REPORT_ID_S_DISP_WRITE_60    = 19,	/**< Write bitmap to display (max 60-byte) */
 };
 
 struct XAT_Report_Info {
-	uint8_t display_name[32];
-	uint8_t display_rows;
-	uint8_t display_columns;
+	uint8_t device_caps[60];
 	/* TODO */
 } ATTR_PACKED;
 
@@ -99,12 +93,6 @@ struct XAT_Report_Stop {
 	uint8_t motor;
 } ATTR_PACKED;
 
-struct XAT_Report_Disp_Write_n {
-	uint16_t offset;
-	uint8_t len;
-	uint8_t data[];
-} ATTR_PACKED;
-
 typedef union {
 	uint8_t data[64];
 	struct XAT_Report_Info info;
@@ -115,7 +103,6 @@ typedef union {
 	struct XAT_Report_QTR qtr;
 	struct XAT_Report_Cur_Position cur_position;
 	struct XAT_Report_Stop stop;
-	struct XAT_Report_Disp_Write_n disp_write;
 } XAT_ReportBuffer_t;
 
 /* Macros: */

@@ -20,11 +20,8 @@ OPTIMIZATION = s
 TARGET       = xat_hid
 SRC          = main.c Descriptors.c adc_task.c \
 	       accelstepper.c wall_time.c stepper_task.c \
-	       $(U8G_SRC) display_task.c \
 	       $(LUFA_SRC_USB) $(LUFA_SRC_USBCLASS)
 LUFA_PATH    = ./LUFA
-U8G_PATH     = ./u8glib/src
-U8G_SRC      = $(wildcard $(U8G_PATH)/*.c)
 GIT_DESC     := $(shell git describe)
 CC_FLAGS     = -fdata-sections -DUSE_LUFA_CONFIG_HEADER -IConfig/ -I$(U8G_PATH) -DGIT_DESC=$(GIT_DESC)
 LD_FLAGS     =

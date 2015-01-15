@@ -44,7 +44,6 @@ static void setup_hardware(void)
 	WallTime_Init();
 	ADC_Task_Init();
 	Stepper_Task_Init();
-	Display_Task_Init();
 
 	/* Reenable wdr again */
 	wdt_enable(WDTO_1S);
@@ -52,9 +51,7 @@ static void setup_hardware(void)
 
 static uint16_t report_fill_info(XAT_ReportBuffer_t *data)
 {
-	strlcpy_P(data->info.display_name, PSTR(DISPLAY_NAME), 32);
-	data->info.display_rows = Display_GetHeight();
-	data->info.display_columns = Display_GetWidth();
+	strlcpy_P(data->info.device_caps, PSTR(DEVICE_CAPS), 60);
 	return sizeof(data->info);
 }
 
@@ -136,17 +133,6 @@ static void report_apply_stop(const XAT_ReportBuffer_t *data, uint16_t size)
 	Stepper_Stop(data->stop.motor & STOP_MOTOR_AZ, data->stop.motor & STOP_MOTOR_EL);
 }
 
-static void report_apply_disp_write_n(const XAT_ReportBuffer_t *data, uint16_t size)
-{
-	// header 3 bytes + data payload
-	if (!(size == 3+8 || size == 3+16 || size == 3+32 || size == 3+60)) {
-		alert_error();
-		Display_USBError();
-		return;
-	}
-
-	Display_Write(data->disp_write.offset, data->disp_write.len, &data->disp_write.data);
-}
 
 int main(void)
 {
@@ -163,7 +149,6 @@ int main(void)
 		USB_USBTask();
 		ADC_Task();
 		Stepper_Task();
-		Display_Task();
 
 		if (millis() - last_blink_ms > led1_toggle_timeout) {
 			last_blink_ms = millis();
@@ -177,14 +162,12 @@ void EVENT_USB_Device_Connect(void)
 	// XXX: leds inverted on PRO MICRO
 	LEDs_TurnOffLEDs(LEDS_LED2);
 	alert_normal();
-	Display_USBConnect();
 }
 
 void EVENT_USB_Device_Disconnect(void)
 {
 	// XXX: leds inverted on PRO MICRO
 	LEDs_TurnOnLEDs(LEDS_LED2);
-	Display_USBDisconnect();
 }
 
 void EVENT_USB_Device_ConfigurationChanged(void)
@@ -287,13 +270,6 @@ void CALLBACK_HID_Device_ProcessHIDReport(USB_ClassInfo_HID_Device_t* const HIDI
 
 	case REPORT_ID_S_STOP:
 		report_apply_stop(ReportData, ReportSize);
-		break;
-
-	case REPORT_ID_S_DISP_WRITE_8:
-	case REPORT_ID_S_DISP_WRITE_16:
-	case REPORT_ID_S_DISP_WRITE_32:
-	case REPORT_ID_S_DISP_WRITE_60:
-		report_apply_disp_write_n(ReportData, ReportSize);
 		break;
 
 	default:

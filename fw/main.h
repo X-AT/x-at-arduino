@@ -70,14 +70,4 @@ void Stepper_SetAzEl(const struct XAT_Report_Az_El *az_el);
 void Stepper_SetCurPosition(const struct XAT_Report_Cur_Position *cur_position);
 void Stepper_Stop(bool az, bool el);
 
-/* display_task module */
-void Display_Task_Init(void);
-void Display_Task(void);
-uint8_t Display_GetWidth(void);
-uint8_t Display_GetHeight(void);
-void Display_USBConnect(void);
-void Display_USBDisconnect(void);
-void Display_USBError(void);
-void Display_Write(uint16_t offset, uint8_t len, uint8_t *data);
-
 #endif /* _MAIN_H_ */
