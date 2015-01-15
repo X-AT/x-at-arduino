@@ -134,6 +134,10 @@ static void report_apply_stop(const XAT_ReportBuffer_t *data, uint16_t size)
 	Stepper_Stop(data->stop.motor & STOP_MOTOR_AZ, data->stop.motor & STOP_MOTOR_EL);
 }
 
+static void report_apply_disp_write_n(const XAT_ReportBuffer_t *data, uint16_t size)
+{
+}
+
 int main(void)
 {
 	setup_hardware();
@@ -273,6 +277,13 @@ void CALLBACK_HID_Device_ProcessHIDReport(USB_ClassInfo_HID_Device_t* const HIDI
 
 	case REPORT_ID_S_STOP:
 		report_apply_stop(ReportData, ReportSize);
+		break;
+
+	case REPORT_ID_S_DISP_WRITE_8:
+	case REPORT_ID_S_DISP_WRITE_16:
+	case REPORT_ID_S_DISP_WRITE_32:
+	case REPORT_ID_S_DISP_WRITE_60:
+		report_apply_disp_write_n(ReportData, ReportSize);
 		break;
 
 	default:

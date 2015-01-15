@@ -1,7 +1,7 @@
 // Z:\home\vovan\bin\hid-descriptor-tool\xat_desc.hid.h
 
 
-//char ReportDescriptor[324] = {
+//char ReportDescriptor[426] = {
     0x05, 0x01,                    // USAGE_PAGE (Generic Desktop)
     0x09, 0x00,                    // USAGE (Undefined)
     0xa1, 0x01,                    // COLLECTION (Application)
@@ -139,9 +139,61 @@
     0x95, 0x06,                    //     REPORT_COUNT (6)
     0x91, 0x03,                    //     OUTPUT (Cnst,Var,Abs)
     0xc0,                          //   END_COLLECTION
-    0x05, 0x14,                    // USAGE_PAGE (Alphnumeric Display)
-    0xa1, 0x02,                    // COLLECTION (Logical)
-    0xc0,                          // END_COLLECTION
+    0x05, 0x14,                    //   USAGE_PAGE (Alphnumeric Display)
+    0x15, 0x00,                    //   LOGICAL_MINIMUM (0)
+    0x26, 0xff, 0x00,              //   LOGICAL_MAXIMUM (255)
+    0xa1, 0x02,                    //   COLLECTION (Logical)
+    0x85, 0x10,                    //     REPORT_ID (16)
+    0x09, 0x33,                    //     USAGE (Row)
+    0x09, 0x34,                    //     USAGE (Column)
+    0x09, 0x36,                    //     USAGE (Columns)
+    0x75, 0x08,                    //     REPORT_SIZE (8)
+    0x95, 0x03,                    //     REPORT_COUNT (3)
+    0x91, 0x02,                    //     OUTPUT (Data,Var,Abs)
+    0x09, 0x2c,                    //     USAGE (Display Data)
+    0x75, 0x08,                    //     REPORT_SIZE (8)
+    0x95, 0x08,                    //     REPORT_COUNT (8)
+    0x91, 0x00,                    //     OUTPUT (Data,Ary,Abs)
+    0xc0,                          //   END_COLLECTION
+    0xa1, 0x02,                    //   COLLECTION (Logical)
+    0x85, 0x11,                    //     REPORT_ID (17)
+    0x09, 0x33,                    //     USAGE (Row)
+    0x09, 0x34,                    //     USAGE (Column)
+    0x09, 0x36,                    //     USAGE (Columns)
+    0x75, 0x08,                    //     REPORT_SIZE (8)
+    0x95, 0x03,                    //     REPORT_COUNT (3)
+    0x91, 0x02,                    //     OUTPUT (Data,Var,Abs)
+    0x09, 0x2c,                    //     USAGE (Display Data)
+    0x75, 0x08,                    //     REPORT_SIZE (8)
+    0x95, 0x10,                    //     REPORT_COUNT (16)
+    0x91, 0x00,                    //     OUTPUT (Data,Ary,Abs)
+    0xc0,                          //   END_COLLECTION
+    0xa1, 0x02,                    //   COLLECTION (Logical)
+    0x85, 0x12,                    //     REPORT_ID (18)
+    0x09, 0x33,                    //     USAGE (Row)
+    0x09, 0x34,                    //     USAGE (Column)
+    0x09, 0x36,                    //     USAGE (Columns)
+    0x75, 0x08,                    //     REPORT_SIZE (8)
+    0x95, 0x03,                    //     REPORT_COUNT (3)
+    0x91, 0x02,                    //     OUTPUT (Data,Var,Abs)
+    0x09, 0x2c,                    //     USAGE (Display Data)
+    0x75, 0x08,                    //     REPORT_SIZE (8)
+    0x95, 0x20,                    //     REPORT_COUNT (32)
+    0x91, 0x00,                    //     OUTPUT (Data,Ary,Abs)
+    0xc0,                          //   END_COLLECTION
+    0xa1, 0x02,                    //   COLLECTION (Logical)
+    0x85, 0x13,                    //     REPORT_ID (19)
+    0x09, 0x33,                    //     USAGE (Row)
+    0x09, 0x34,                    //     USAGE (Column)
+    0x09, 0x36,                    //     USAGE (Columns)
+    0x75, 0x08,                    //     REPORT_SIZE (8)
+    0x95, 0x03,                    //     REPORT_COUNT (3)
+    0x91, 0x02,                    //     OUTPUT (Data,Var,Abs)
+    0x09, 0x2c,                    //     USAGE (Display Data)
+    0x75, 0x08,                    //     REPORT_SIZE (8)
+    0x95, 0x3c,                    //     REPORT_COUNT (60)
+    0x91, 0x00,                    //     OUTPUT (Data,Ary,Abs)
+    0xc0,                          //   END_COLLECTION
     0xc0                           // END_COLLECTION
 //};
 
