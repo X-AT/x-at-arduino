@@ -2,7 +2,7 @@
 #define _VERSION_H_
 
 #define XAT_MAJOR	0
-#define XAT_MINOR	1
+#define XAT_MINOR	2
 #define XAT_PATCH	0
 
 //#define GIT_DESC	"$(shell git describe)"
