@@ -67,6 +67,8 @@ uint8_t Stepper_GetFlags(void);
 void Stepper_GetSettings(struct XAT_Report_Stepper_Settings *settings);
 void Stepper_SetSettings(const struct XAT_Report_Stepper_Settings *settings);
 void Stepper_SetAzEl(const struct XAT_Report_Az_El *az_el);
+void Stepper_SetCurPosition(const struct XAT_Report_Cur_Position *cur_position);
+void Stepper_Stop(bool az, bool el);
 
 /* display_task module */
 void Display_Task_Init(void);

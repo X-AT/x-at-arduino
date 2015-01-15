@@ -115,3 +115,18 @@ void Stepper_SetAzEl(const struct XAT_Report_Az_El *az_el)
 	AS_MoveTo(&azimuth_stepper, az_el->azimuth_position);
 	AS_MoveTo(&elevation_stepper, az_el->elevation_position);
 }
+
+void Stepper_SetCurPosition(const struct XAT_Report_Cur_Position *cur_position)
+{
+	AS_SetCurrentPosition(&azimuth_stepper, cur_position->azimuth_position);
+	AS_SetCurrentPosition(&elevation_stepper, cur_position->elevation_position);
+}
+
+void Stepper_Stop(bool az, bool el)
+{
+	if (az)
+		AS_Stop(&azimuth_stepper);
+
+	if (el)
+		AS_Stop(&elevation_stepper);
+}

@@ -114,6 +114,26 @@ static void report_apply_qtr(const XAT_ReportBuffer_t *data, uint16_t size)
 	QTR_SetAzElLevel(data->qtr.azimuth_qtr_raw, data->qtr.elevation_qtr_raw);
 }
 
+static void report_apply_cur_position(const XAT_ReportBuffer_t *data, uint16_t size)
+{
+	if (size != sizeof(struct XAT_Report_Cur_Position)) {
+		alert_error();
+		return;
+	}
+
+	Stepper_SetCurPosition(&data->cur_position);
+}
+
+static void report_apply_stop(const XAT_ReportBuffer_t *data, uint16_t size)
+{
+	if (size != sizeof(struct XAT_Report_Stop)) {
+		alert_error();
+		return;
+	}
+
+	Stepper_Stop(data->stop.motor & STOP_MOTOR_AZ, data->stop.motor & STOP_MOTOR_EL);
+}
+
 int main(void)
 {
 	setup_hardware();
@@ -245,6 +265,14 @@ void CALLBACK_HID_Device_ProcessHIDReport(USB_ClassInfo_HID_Device_t* const HIDI
 
 	case REPORT_ID_F_QTR:
 		report_apply_qtr(ReportData, ReportSize);
+		break;
+
+	case REPORT_ID_F_CUR_POSITION:
+		report_apply_cur_position(ReportData, ReportSize);
+		break;
+
+	case REPORT_ID_S_STOP:
+		report_apply_stop(ReportData, ReportSize);
 		break;
 
 	default:

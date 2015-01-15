@@ -41,9 +41,12 @@ enum XAT_ReportID_t {
 	REPORT_ID_F_STEPPER_SETTINGS = 4,	/**< Get/set acceleration and velocity settings */
 	REPORT_ID_S_AZ_EL            = 5,	/**< Set target position for steppers */
 	REPORT_ID_F_QTR              = 6,	/**< Get raw analog value / Set threshold level */
+	REPORT_ID_F_CUR_POSITION     = 7,	/**< Set current position of steppers (cuse with caution) */
+	REPORT_ID_S_STOP             = 8,	/**< Require stop of motors */
 };
 
 struct XAT_Report_Info {
+	uint8_t display_name[32];
 	uint8_t display_rows;
 	uint8_t display_columns;
 	/* TODO */
@@ -81,6 +84,17 @@ struct XAT_Report_QTR {
 	uint16_t elevation_qtr_raw;
 } ATTR_PACKED;
 
+struct XAT_Report_Cur_Position {
+	int32_t azimuth_position;
+	int32_t elevation_position;
+} ATTR_PACKED;
+
+struct XAT_Report_Stop {
+#define STOP_MOTOR_AZ	(1<<0)
+#define STOP_MOTOR_EL	(1<<1)
+	uint8_t motor;
+} ATTR_PACKED;
+
 typedef union {
 	uint8_t data[64];
 	struct XAT_Report_Info info;
@@ -89,6 +103,8 @@ typedef union {
 	struct XAT_Report_Stepper_Settings stepper_settings;
 	struct XAT_Report_Az_El az_el;
 	struct XAT_Report_QTR qtr;
+	struct XAT_Report_Cur_Position cur_position;
+	struct XAT_Report_Stop stop;
 } XAT_ReportBuffer_t;
 
 /* Macros: */
