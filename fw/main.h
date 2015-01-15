@@ -65,7 +65,7 @@ int32_t Stepper_GetAzPosition(void);
 int32_t Stepper_GetElPosition(void);
 uint8_t Stepper_GetFlags(void);
 void Stepper_GetSettings(struct XAT_Report_Stepper_Settings *settings);
-void Stepper_SetSettings(struct XAT_Report_Stepper_Settings *settings);
-void Stepper_SetAzEl(struct XAT_Report_Az_El *az_el);
+void Stepper_SetSettings(const struct XAT_Report_Stepper_Settings *settings);
+void Stepper_SetAzEl(const struct XAT_Report_Az_El *az_el);
 
 #endif /* _MAIN_H_ */

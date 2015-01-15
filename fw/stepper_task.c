@@ -102,7 +102,7 @@ void Stepper_GetSettings(struct XAT_Report_Stepper_Settings *settings)
 	settings->elevation_max_speed = elevation_stepper.max_speed;
 }
 
-void Stepper_SetSettings(struct XAT_Report_Stepper_Settings *settings)
+void Stepper_SetSettings(const struct XAT_Report_Stepper_Settings *settings)
 {
 	AS_SetAcceleration(&azimuth_stepper, settings->azimuth_acceleration);
 	AS_SetMaxSpeed(&azimuth_stepper, settings->azimuth_max_speed);
@@ -110,7 +110,7 @@ void Stepper_SetSettings(struct XAT_Report_Stepper_Settings *settings)
 	AS_SetMaxSpeed(&elevation_stepper, settings->elevation_max_speed);
 }
 
-void Stepper_SetAzEl(struct XAT_Report_Az_El *az_el)
+void Stepper_SetAzEl(const struct XAT_Report_Az_El *az_el)
 {
 	AS_MoveTo(&azimuth_stepper, az_el->azimuth_position);
 	AS_MoveTo(&elevation_stepper, az_el->elevation_position);

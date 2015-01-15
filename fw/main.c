@@ -21,6 +21,12 @@ USB_ClassInfo_HID_Device_t xat_hid_interface = {
 	},
 };
 
+#define LED1_NORMAL	500
+#define LED1_ERROR	100
+static uint16_t led1_toggle_timeout = LED1_NORMAL;
+
+static inline void alert_error(void) { led1_toggle_timeout = LED1_ERROR; }
+static inline void alert_normal(void) { led1_toggle_timeout = LED1_NORMAL; }
 
 static void setup_hardware(void)
 {
@@ -80,24 +86,30 @@ static uint16_t report_fill_qtr(XAT_ReportBuffer_t *data)
 
 static void report_apply_stepper_settings(const XAT_ReportBuffer_t *data, uint16_t size)
 {
-	//if (size != sizeof(data->stepper_settings))
-	//	return;
+	if (size != sizeof(struct XAT_Report_Stepper_Settings)) {
+		alert_error();
+		return;
+	}
 
 	Stepper_SetSettings(&data->stepper_settings);
 }
 
 static void report_apply_az_el(const XAT_ReportBuffer_t *data, uint16_t size)
 {
-	//if (size != sizeof(data->az_el))
-	//	return;
+	if (size != sizeof(struct XAT_Report_Az_El)) {
+		alert_error();
+		return;
+	}
 
 	Stepper_SetAzEl(&data->az_el);
 }
 
 static void report_apply_qtr(const XAT_ReportBuffer_t *data, uint16_t size)
 {
-	//if (size != sizeof(data->qtr))
-	//	return;
+	if (size != sizeof(struct XAT_Report_QTR)) {
+		alert_error();
+		return;
+	}
 
 	QTR_SetAzElLevel(data->qtr.azimuth_qtr_raw, data->qtr.elevation_qtr_raw);
 }
@@ -118,7 +130,7 @@ int main(void)
 		ADC_Task();
 		Stepper_Task();
 
-		if (millis() - last_blink_ms > 500) {
+		if (millis() - last_blink_ms > led1_toggle_timeout) {
 			last_blink_ms = millis();
 			LEDs_ToggleLEDs(LEDS_LED1);
 		}
@@ -127,7 +139,9 @@ int main(void)
 
 void EVENT_USB_Device_Connect(void)
 {
+	// XXX: leds inverted on PRO MICRO
 	LEDs_TurnOffLEDs(LEDS_LED2);
+	alert_normal();
 }
 
 void EVENT_USB_Device_Disconnect(void)
@@ -193,9 +207,12 @@ bool CALLBACK_HID_Device_CreateHIDReport(USB_ClassInfo_HID_Device_t* const HIDIn
 		break;
 
 	default:
-		/* TODO signal error */
 		*ReportSize = 0;
+		break;
 	}
+
+	if (*ReportSize != 0)
+		alert_normal();
 
 	return false;
 }
@@ -228,7 +245,6 @@ void CALLBACK_HID_Device_ProcessHIDReport(USB_ClassInfo_HID_Device_t* const HIDI
 		break;
 
 	default:
-		/* TODO signal error */
 		break;
 	}
 }
