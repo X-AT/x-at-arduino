@@ -6,6 +6,7 @@
  */
 
 #include "Descriptors.h"
+#include "version.h"
 
 /** HID class report descriptor. This is a special descriptor constructed with values from the
  *  USBIF HID class specification to describe the reports and capabilities of the HID device. This
@@ -32,13 +33,13 @@ static const USB_Descriptor_Device_t PROGMEM device_descriptor = {
 
 	.Endpoint0Size          = FIXED_CONTROL_ENDPOINT_SIZE,
 
-	.VendorID               = 0x03EB,	// GenericHID VID/PID for now
-	.ProductID              = 0x204F,
-	.ReleaseNumber          = VERSION_BCD(0,0,0),
+	.VendorID               = XAT_USB_VID,
+	.ProductID              = XAT_USB_PID,
+	.ReleaseNumber          = VERSION_BCD(XAT_MAJOR,XAT_MINOR,XAT_PATCH),
 
 	.ManufacturerStrIndex   = STRING_ID_Manufacturer,
 	.ProductStrIndex        = STRING_ID_Product,
-	.SerialNumStrIndex      = NO_DESCRIPTOR,
+	.SerialNumStrIndex      = STRING_ID_SerialNumber,
 
 	.NumberOfConfigurations = FIXED_NUM_CONFIGURATIONS
 };
@@ -101,6 +102,7 @@ static const USB_Descriptor_Configuration_t PROGMEM configuration_descriptor = {
 const USB_Descriptor_String_t PROGMEM language_string = USB_STRING_DESCRIPTOR_ARRAY(LANGUAGE_ID_ENG);
 const USB_Descriptor_String_t PROGMEM manufacturer_string = USB_STRING_DESCRIPTOR(L"X-AT project");
 const USB_Descriptor_String_t PROGMEM product_string = USB_STRING_DESCRIPTOR(L"X-AT stepper controller");
+const USB_Descriptor_String_t PROGMEM serialnum_string = USB_STRING_DESCRIPTOR(XAT_GIT_DESC);
 
 /** This function is called by the library when in device mode, and must be overridden (see library "USB Descriptors"
  *  documentation) by the application code so that the address and size of a requested descriptor can be given
@@ -144,6 +146,11 @@ uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue,
 		case STRING_ID_Product:
 			Address = &product_string;
 			Size    = pgm_read_byte(&product_string.Header.Size);
+			break;
+
+		case STRING_ID_SerialNumber:
+			Address = &serialnum_string;
+			Size    = pgm_read_byte(&serialnum_string.Header.Size);
 			break;
 		}
 		break;

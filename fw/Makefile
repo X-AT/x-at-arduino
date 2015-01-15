@@ -22,7 +22,8 @@ SRC          = main.c Descriptors.c adc_task.c \
 	       accelstepper.c wall_time.c stepper_task.c \
 	       $(LUFA_SRC_USB) $(LUFA_SRC_USBCLASS)
 LUFA_PATH    = ./LUFA
-CC_FLAGS     = -DUSE_LUFA_CONFIG_HEADER -IConfig/
+GIT_DESC     := $(shell git describe)
+CC_FLAGS     = -DUSE_LUFA_CONFIG_HEADER -IConfig/ -DGIT_DESC=$(GIT_DESC)
 LD_FLAGS     =
 
 AVRDUDE_PROGRAMMER ?= avr109

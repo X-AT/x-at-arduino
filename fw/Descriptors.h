@@ -30,6 +30,7 @@ enum StringDescriptors_t {
 	STRING_ID_Language     = 0, /**< Supported Languages string descriptor ID (must be zero) */
 	STRING_ID_Manufacturer = 1, /**< Manufacturer string ID */
 	STRING_ID_Product      = 2, /**< Product string ID */
+	STRING_ID_SerialNumber = 3, /**< Serial number (git describe) string ID */
 };
 
 /* HID report types */
