@@ -43,6 +43,7 @@ static void setup_hardware(void)
 	WallTime_Init();
 	ADC_Task_Init();
 	Stepper_Task_Init();
+	Display_Task_Init();
 
 	/* Reenable wdr again */
 	wdt_enable(WDTO_1S);

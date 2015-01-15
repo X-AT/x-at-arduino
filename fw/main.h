@@ -68,4 +68,7 @@ void Stepper_GetSettings(struct XAT_Report_Stepper_Settings *settings);
 void Stepper_SetSettings(const struct XAT_Report_Stepper_Settings *settings);
 void Stepper_SetAzEl(const struct XAT_Report_Az_El *az_el);
 
+/* display_task module */
+void Display_Task_Init(void);
+
 #endif /* _MAIN_H_ */
