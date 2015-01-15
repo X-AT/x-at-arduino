@@ -51,9 +51,8 @@ static void setup_hardware(void)
 
 static uint16_t report_fill_info(XAT_ReportBuffer_t *data)
 {
-	/* XXX TODO */
-	data->info.display_rows = 64;
-	data->info.display_columns = 128;
+	data->info.display_rows = Display_GetHeight();
+	data->info.display_columns = Display_GetWidth();
 	return sizeof(data->info);
 }
 
@@ -130,6 +129,7 @@ int main(void)
 		USB_USBTask();
 		ADC_Task();
 		Stepper_Task();
+		Display_Task();
 
 		if (millis() - last_blink_ms > led1_toggle_timeout) {
 			last_blink_ms = millis();
@@ -143,12 +143,14 @@ void EVENT_USB_Device_Connect(void)
 	// XXX: leds inverted on PRO MICRO
 	LEDs_TurnOffLEDs(LEDS_LED2);
 	alert_normal();
+	Display_USBConnect();
 }
 
 void EVENT_USB_Device_Disconnect(void)
 {
 	// XXX: leds inverted on PRO MICRO
 	LEDs_TurnOnLEDs(LEDS_LED2);
+	Display_USBDisconnect();
 }
 
 void EVENT_USB_Device_ConfigurationChanged(void)

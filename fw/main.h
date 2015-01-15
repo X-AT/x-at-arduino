@@ -70,5 +70,10 @@ void Stepper_SetAzEl(const struct XAT_Report_Az_El *az_el);
 
 /* display_task module */
 void Display_Task_Init(void);
+void Display_Task(void);
+uint8_t Display_GetWidth(void);
+uint8_t Display_GetHeight(void);
+void Display_USBConnect(void);
+void Display_USBDisconnect(void);
 
 #endif /* _MAIN_H_ */
