@@ -37,6 +37,9 @@ static void setup_hardware(void)
 	WallTime_Init();
 	ADC_Task_Init();
 	Stepper_Task_Init();
+
+	/* Reenable wdr again */
+	wdt_enable(WDTO_1S);
 }
 
 static uint16_t report_fill_info(XAT_ReportBuffer_t *data)
@@ -109,6 +112,7 @@ int main(void)
 	uint32_t last_blink_ms = millis();
 	for (;;)
 	{
+		wdt_reset();
 		HID_Device_USBTask(&xat_hid_interface);
 		USB_USBTask();
 		ADC_Task();
