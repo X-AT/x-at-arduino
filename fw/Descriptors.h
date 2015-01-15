@@ -100,9 +100,8 @@ struct XAT_Report_Stop {
 } ATTR_PACKED;
 
 struct XAT_Report_Disp_Write_n {
-	uint8_t y;
-	uint8_t x;
-	uint8_t cols;
+	uint16_t offset;
+	uint8_t len;
 	uint8_t data[];
 } ATTR_PACKED;
 

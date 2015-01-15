@@ -15,4 +15,6 @@
 #define XAT_USB_VID	0x03EB
 #define XAT_USB_PID	0x204F
 
+#define DISPLAY_NAME	"SSD1306 ROW"
+
 #endif /* _VERSION_H_ */

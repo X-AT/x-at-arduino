@@ -5,6 +5,7 @@
  */
 
 #include "main.h"
+#include "version.h"
 
 
 static XAT_ReportBuffer_t prev_hid_report_buffer;
@@ -51,6 +52,7 @@ static void setup_hardware(void)
 
 static uint16_t report_fill_info(XAT_ReportBuffer_t *data)
 {
+	strlcpy_P(data->info.display_name, PSTR(DISPLAY_NAME), 32);
 	data->info.display_rows = Display_GetHeight();
 	data->info.display_columns = Display_GetWidth();
 	return sizeof(data->info);
@@ -136,6 +138,14 @@ static void report_apply_stop(const XAT_ReportBuffer_t *data, uint16_t size)
 
 static void report_apply_disp_write_n(const XAT_ReportBuffer_t *data, uint16_t size)
 {
+	// header 3 bytes + data payload
+	if (!(size == 3+8 || size == 3+16 || size == 3+32 || size == 3+60)) {
+		alert_error();
+		Display_USBError();
+		return;
+	}
+
+	Display_Write(data->disp_write.offset, data->disp_write.len, &data->disp_write.data);
 }
 
 int main(void)

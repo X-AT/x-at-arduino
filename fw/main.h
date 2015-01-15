@@ -77,5 +77,7 @@ uint8_t Display_GetWidth(void);
 uint8_t Display_GetHeight(void);
 void Display_USBConnect(void);
 void Display_USBDisconnect(void);
+void Display_USBError(void);
+void Display_Write(uint16_t offset, uint8_t len, uint8_t *data);
 
 #endif /* _MAIN_H_ */
