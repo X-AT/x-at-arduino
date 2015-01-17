@@ -84,10 +84,10 @@ uint8_t Stepper_GetFlags(void)
 {
 	uint8_t flags = 0;
 
-	if (AS_DistanceToGo(&azimuth_stepper) > 0)
+	if (AS_DistanceToGo(&azimuth_stepper) != 0)
 		flags |= FLAGS_AZ_IN_MOTION;
 
-	if (AS_DistanceToGo(&elevation_stepper) > 0)
+	if (AS_DistanceToGo(&elevation_stepper) != 0)
 		flags |= FLAGS_EL_IN_MOTION;
 
 	return flags;
