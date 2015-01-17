@@ -3,7 +3,7 @@
 
 #define XAT_MAJOR	0
 #define XAT_MINOR	2
-#define XAT_PATCH	0
+#define XAT_PATCH	1
 
 //#define GIT_DESC	"$(shell git describe)"
 
