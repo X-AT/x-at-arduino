@@ -95,7 +95,7 @@ static const USB_Descriptor_Configuration_t PROGMEM configuration_descriptor = {
 		.EndpointAddress        = HID_IN_EPADDR,
 		.Attributes             = (EP_TYPE_INTERRUPT | ENDPOINT_ATTR_NO_SYNC | ENDPOINT_USAGE_DATA),
 		.EndpointSize           = HID_EPSIZE,
-		.PollingIntervalMS      = 0x20
+		.PollingIntervalMS      = 100
 	},
 };
 

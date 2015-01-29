@@ -110,7 +110,7 @@ typedef union {
 #define HID_IN_EPADDR         (ENDPOINT_DIR_IN | 1)
 
 /** Size in bytes of the Generic HID reporting endpoint. */
-#define HID_EPSIZE            64
+#define HID_EPSIZE            8
 
 /* Function Prototypes: */
 uint16_t CALLBACK_USB_GetDescriptor(

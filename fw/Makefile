@@ -23,7 +23,7 @@ SRC          = main.c Descriptors.c adc_task.c \
 	       $(LUFA_SRC_USB) $(LUFA_SRC_USBCLASS)
 LUFA_PATH    = ./LUFA
 GIT_DESC     := $(shell git describe)
-CC_FLAGS     = -fdata-sections -DUSE_LUFA_CONFIG_HEADER -IConfig/ -I$(U8G_PATH) -DGIT_DESC=$(GIT_DESC)
+CC_FLAGS     = -fdata-sections -DUSE_LUFA_CONFIG_HEADER -DGIT_DESC=$(GIT_DESC) -IConfig/
 LD_FLAGS     =
 
 AVRDUDE_PROGRAMMER ?= avr109
